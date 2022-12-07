@@ -19,6 +19,11 @@ Works only given your personal bot API!
 Needs Telethon library for work so follow its installation
 instructions https://docs.telethon.dev/en/stable/basic/installation.html
 
+For the program to work you need to create a file .env and store your
+api_id and api_hash there in form
+api_id = <your api_id>
+api_hash = <your api_hash>
+ 
 Global args:
     TIME_TO_SLEEP (int): period between updates
     session_name (str): anything you like, default "anon"
