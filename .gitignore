@@ -1,4 +1,5 @@
 venv/
 *.session
+*.session-journal
 .env
 .trunk/
