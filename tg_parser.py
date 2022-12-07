@@ -2,11 +2,12 @@
 
 Given you have a user's bot you can follow some particular topic rather
 then group or person, get periodic updates on it.
-It takes user-provided phrase as a command line argument 
+It takes user-provided phrase as a command line argument
 in a string format or no argument
 (in this case the default one is used) and searches this phrase
 in all telegram's chats you follow.
-It perfoms fuzzy search every 20 minutes (you can change this figure as you like)
+It perfoms fuzzy search every 20 minutes
+(you can change this figure as you like)
 and sends result into your saved messages or doesn't send anything if
 there wasn't any new one.
 Currently this program retreives only one last message on a followed topic.
@@ -15,7 +16,7 @@ Must be stopped manually because of an infinite loop.
 
 Works only given your personal bot API!
 
-Needs Telethon library for work so follow its installation 
+Needs Telethon library for work so follow its installation
 instructions https://docs.telethon.dev/en/stable/basic/installation.html
 
 Global args:
@@ -35,10 +36,12 @@ import time
 
 from dotenv import load_dotenv
 from telethon.sync import TelegramClient
+from telethon.tl.custom.message import Message
 from telethon.utils import get_display_name
 
 logging.basicConfig(
-    format="[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s", level=logging.WARNING
+    format="[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s",
+    level=logging.WARNING
 )
 
 load_dotenv()
@@ -61,12 +64,13 @@ def main(lookup: str = "сдам квартиру") -> None:
 
     while True:
 
-        message = client.get_messages(None, search=lookup)
-        if message[0].message != base_message:
-            group_name: str = get_display_name(message[0].chat)
+        message_obj: Message = client.get_messages(None, search=lookup)[0]
+        message: str = message_obj.message
+        if message != base_message:
+            group_name: str = get_display_name(message_obj.chat)
             text: str = (
-                f"New message: {message[0].message}."
-                f"Date & time: {message[0].date}."
+                f"New message: {message}."
+                f"Date & time: {message_obj.date}."
                 f"Group: {group_name}."
             )
             client.send_message("me", text)
